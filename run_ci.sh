@@ -10,7 +10,7 @@ git config --global user.email '<>'
 github-notify "pending" "Building..."
 
 echo $PWD
-mkdir $PWD/build
+mkdir -p $PWD/build
 cd $PWD/build
 
 cmake .. -DCMAKE_PREFIX_PATH=/builds/sofa/build/install
