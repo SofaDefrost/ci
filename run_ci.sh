@@ -14,7 +14,14 @@ mkdir $PWD/build
 cd $PWD/build
 
 cmake .. -DCMAKE_PREFIX_PATH=/builds/sofa/build/install
-make -j8 || github-notify "failure" "Build failed"
+i=0
+make -j8 || let "i++"
+
+if [ $i -eq 1 ]
+then
+    github-notify "failure" "Build failed"
+    exit -1
+fi
 
 github-notify "success" "Build OK."
 github-notify "unit tests" "Running..."
