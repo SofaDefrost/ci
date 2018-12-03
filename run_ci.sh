@@ -1,8 +1,8 @@
 #!/bin/bash
 set -o errexit # Exit on error
 
-. scripts/utils.sh
-. scripts/github.sh
+. /builds/ci/scripts/utils.sh
+. /builds/ci/scripts/github.sh
 
 git config --global user.name 'MIMESIS Bot'
 git config --global user.email '<>'
@@ -14,7 +14,7 @@ mkdir $PWD/build
 cd $PWD/build
 
 cmake .. -DCMAKE_PREFIX_PATH=/builds/sofa/build/install
-make -j8
+make -j8 || github-notify "failure" "Build failed"
 
 github-notify "success" "Build OK."
 github-notify "unit tests" "Running..."
