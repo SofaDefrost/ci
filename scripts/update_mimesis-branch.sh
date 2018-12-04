@@ -1,6 +1,7 @@
 #!/bin/sh
 
 update_mimesis-branch() {
+    git fetch
     # ALL CARIBOU BRANCHES
     git branch -r | tee mimesis_branches.txt > /dev/null
 
