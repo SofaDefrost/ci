@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export WORKSPACE_PATH=$PWD
 . $SCRIPTS_PATH/utils.sh
 . $SCRIPTS_PATH/github.sh
 
