@@ -8,6 +8,8 @@ update_mimesis-branch() {
     # ALL CARIBOU BRANCHES
     git branch -r | tee mimesis_branches.txt > /dev/null
 
+    echo $SCRIPTS_PATH/blacklist_branches.txt
+    
     #WHITELISTED BRANCHES TO MERGE
     grep -vxFf $SCRIPTS_PATH/blacklist_branches.txt mimesis_branches.txt | tee whitelist.txt > /dev/null
 
