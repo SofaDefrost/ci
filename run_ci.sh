@@ -8,8 +8,11 @@ export SCRIPTS_PATH=/builds/ci/scripts
 
 set -o errexit # Exit on error
 
+github-notify "pending" "Updating SOFA"
+
 ## First update sofa if necessary
 update_sofa /builds/sofa/build
+
 
 if vm-is-ubuntu; then
     export GITHUB_CONTEXT="Ubuntu-16.04_GCC-5.4_Clang-3.8"
