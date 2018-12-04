@@ -1,22 +1,17 @@
 #!/bin/bash
 
-export WORKSPACE_PATH=$PWD
-export SCRIPTS_PATH=/builds/ci/scripts
-export CARIBOU_MIMESIS_PATH=/builds/caribou
-
-. $SCRIPTS_PATH/update_sofa.sh
 . $SCRIPTS_PATH/utils.sh
 . $SCRIPTS_PATH/github.sh
 
 set -o errexit # Exit on error
 
 git config --global user.name 'mimesis-bot'
-git config --global user.email '<mimesisteam@gmail.com>'
+git config --global user.email '<>'
 
 export GITHUB_REPOSITORY="mimesis-inria/caribou"
 export GITHUB_TARGET_URL=$BUILD_URL
 export GITHUB_COMMIT_HASH=$GIT_COMMIT
-export GITHUB_MIMESISBOT_TOKEN=2369c0caa46711c4622dcec89f5dd40d39d8c537
+export GITHUB_MIMESISBOT_TOKEN=79639dc81a06c4e6ad77a62303f8ef2fc5e1af79
 export GITHUB_NOTIFY="true"
 
 
