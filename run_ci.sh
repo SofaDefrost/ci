@@ -1,7 +1,8 @@
 #!/bin/bash
 set -o errexit # Exit on error
 
-GITHUB_CONTEXT="[ci-build]"
+GITHUB_Notify="true"
+GITHUB_CONTEXT="linux (ubuntu 16.04)"
 GITHUB_REPOSITORY="mimesis-inria/caribou"
 GITHUB_TARGET_URL=$BUILD_URL
 GITHUB_COMMIT_HASH=$GIT_COMMIT
