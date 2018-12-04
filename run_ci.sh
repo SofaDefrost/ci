@@ -7,8 +7,8 @@ GITHUB_TARGET_URL=$BUILD_URL
 GITHUB_COMMIT_HASH=$GIT_COMMIT
 GITHUB_SOFABOT_TOKEN=2c3848ec9453bd5fda70032103300cee8479e706
 
-. scripts/utils.sh
-. scripts/github.sh
+. /builds/ci/scripts/utils.sh
+. /builds/ci/scripts/github.sh
 
 git config --global user.name 'MIMESIS Bot'
 git config --global user.email '<>'
