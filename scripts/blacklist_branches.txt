@@ -1,3 +1,3 @@
-origin/HEAD -> origin/master
-origin/mimesis
-origin/master
+  origin/HEAD -> origin/master
+  origin/mimesis
+  origin/master
