@@ -12,7 +12,7 @@ git config --global user.email '<>'
 export GITHUB_REPOSITORY="mimesis-inria/caribou"
 export GITHUB_TARGET_URL=$BUILD_URL
 export GITHUB_COMMIT_HASH=$GIT_COMMIT
-export GITHUB_MIMESISBOT_TOKEN=79639dc81a06c4e6ad77a62303f8ef2fc5e1af79
+export GITHUB_MIMESISBOT_TOKEN=68338923686d4414a27e4f06e9a28eb1452150e2
 export GITHUB_NOTIFY="true"
 
 
