@@ -1,7 +1,7 @@
 #!/bin/bash
 
 fail() {
-    github-notify $1 $2
+    github-notify $0 $1
     exit -1    
 }
 
