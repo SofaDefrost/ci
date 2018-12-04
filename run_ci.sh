@@ -1,15 +1,27 @@
 #!/bin/bash
+
+export SCRIPTS_PATH=/builds/ci/scripts
+
+. $SCRIPTS_PATH/update_sofa.sh
+. $SCRIPTS_PATH/utils.sh
+. $SCRIPTS_PATH/github.sh
+
 set -o errexit # Exit on error
 
-. /builds/ci/scripts/utils.sh
-. /builds/ci/scripts/github.sh
+## First update sofa if necessary
+update_sofa /builds/sofa/build
 
 if vm-is-ubuntu; then
     export GITHUB_CONTEXT="Ubuntu-16.04_GCC-5.4_Clang-3.8"
+
+    ## No need to do this on every vm. This script syncs mimesis-inria with
+    ## sofa-framework & merges wip branches in mimesis branch
+    . $SCRIPTS_PATH/update_mimesis-branch.sh
+    update_mimesis-branch
 elif vm-is-windows; then
     export GITHUB_CONTEXT="Windows-7_MSVC-14.0"
 else
-    export GITHUB_CONTEXT="MacOS-10.9_Clang-3.5"
+    export GITHUB_CONTEXT="MacOS-10.13_Clang-3.5"
 fi
 export GITHUB_REPOSITORY="mimesis-inria/caribou"
 export GITHUB_TARGET_URL=$BUILD_URL
@@ -36,8 +48,7 @@ then
     exit -1
 fi
 
-github-notify "success" "Build OK."
-github-notify "unit tests" "Running..."
+github-notify "build OK" "Running tests..."
 
 cd bin
 
