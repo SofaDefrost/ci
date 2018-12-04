@@ -25,7 +25,7 @@ github-notify() {
             \"target_url\": \"$GITHUB_TARGET_URL\"
         }"
 
-        response="$(curl --silent --header "Authorization: token $GITHUB_MIMESISBOT_TOKEN" --data "$request" "https://api.github.com/repos/$GITHUB_REPOSITORY/statuses/$GITHUB_COMMIT_HASH")"
+        response="$(curl --silent --header "Authorization: token 3628a98c9eed3a424e3bb99d771ed3b0ac740c82" --data "$request" "https://api.github.com/repos/$GITHUB_REPOSITORY/statuses/$GITHUB_COMMIT_HASH")"
         if [ -n "$response" ]; then
             notify="sent"
         fi
