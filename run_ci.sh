@@ -1,5 +1,10 @@
 #!/bin/bash
 
+fail() {
+    github-notify $1 $2
+    exit -1    
+}
+
 export WORKSPACE_PATH=$PWD
 export SCRIPTS_PATH=/builds/ci/scripts
 export CARIBOU_MIMESIS_PATH=/builds/caribou
@@ -32,7 +37,7 @@ export GITHUB_NOTIFY="true"
 
 github-notify "pending" "Updating SOFA"
 ## First update sofa if necessary
-update_sofa /builds/sofa/build
+update_sofa /builds/sofa/build || fail "failure" "SOFA build failure"
 
 github-notify "pending" "Building..."
 
@@ -41,15 +46,9 @@ echo $PWD
 mkdir -p $PWD/build
 cd $PWD/build
 
-cmake .. -DCMAKE_PREFIX_PATH=/builds/sofa/build/install
+cmake .. -DCMAKE_PREFIX_PATH=/builds/sofa/build/install || fail "failure" "CMake config failed"
 i=0
-make -j8 || let "i++"
-
-if [ $i -eq 1 ]
-then
-    github-notify "failure" "Build failed"
-    exit -1
-fi
+make -j8 || fail "failure" "Build failed"
 
 github-notify "build OK" "Running tests..."
 
