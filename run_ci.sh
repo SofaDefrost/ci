@@ -1,7 +1,7 @@
 #!/bin/bash
 
 fail() {
-    github-notify $0 $1
+    github-notify $1 $2
     exit -1    
 }
 
@@ -35,9 +35,9 @@ export GITHUB_COMMIT_HASH=$GIT_COMMIT
 export GITHUB_MIMESISBOT_TOKEN=$GIT_TOKEN_JKCONF
 export GITHUB_NOTIFY="true"
 
-github-notify "pending" "Updating SOFA"
+github-notify "pending" "Updating SOFA..."
 ## First update sofa if necessary
-update_sofa /builds/sofa/build || fail "failure" "SOFA build failure"
+update_sofa /builds/sofa/build || fail "error" "SOFA build failure."
 
 github-notify "pending" "Building..."
 
@@ -46,11 +46,11 @@ echo $PWD
 mkdir -p $PWD/build
 cd $PWD/build
 
-cmake .. -DCMAKE_PREFIX_PATH=/builds/sofa/build/install || fail "failure" "CMake config failed"
+cmake .. -DCMAKE_PREFIX_PATH=/builds/sofa/build/install || fail "error" "CMake config failed."
 i=0
-make -j8 || fail "failure" "Build failed"
+make -j8 || fail "failure" "Build failed."
 
-github-notify "build OK" "Running tests..."
+github-notify "pending" "Running tests..."
 
 cd bin
 
