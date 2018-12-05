@@ -19,8 +19,8 @@ export GITHUB_NOTIFY="true"
 export GITHUB_CONTEXT="Ubuntu-16.04_GCC-5.4_Clang-3.8"
 github-notify "pending" "Build queued."
 
-export GITHUB_CONTEXT="Windows-7_MSVC-14.0"
-github-notify "pending" "Build queued."
+# export GITHUB_CONTEXT="Windows-7_MSVC-14.0"
+# github-notify "pending" "Build queued."
 
 export GITHUB_CONTEXT="MacOS-10.13_Clang-3.5"
 github-notify "pending" "Build queued."
