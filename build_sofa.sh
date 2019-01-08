@@ -9,5 +9,5 @@ mkdir -p build
 cd build
 
 cmake .. -DCMAKE_INSTALL_PREFIX=/builds/SOFA -DPLUGIN_PYTHON=ON -DSOFA_BUILD_METIS=ON
-make -j4
-make install
+
+make -j4 && make install -j4

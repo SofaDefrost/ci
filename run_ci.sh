@@ -9,7 +9,6 @@ export WORKSPACE_PATH=$PWD
 export SCRIPTS_PATH=/builds/ci/scripts
 export PROJECT_PATH=/builds/$3
 
-. $SCRIPTS_PATH/update_sofa.sh
 . $SCRIPTS_PATH/utils.sh
 . $SCRIPTS_PATH/github.sh
 
@@ -28,7 +27,7 @@ fi
 export GITHUB_REPOSITORY="SofaDefrost/SofaQtQuick"
 export GITHUB_TARGET_URL=$BUILD_URL
 export GITHUB_COMMIT_HASH=$GIT_COMMIT
-export GITHUB_MIMESISBOT_TOKEN=$GIT_TOKEN_JKCONF
+export GITHUB_DEFROSTBOT_TOKEN=$GIT_TOKEN_JKCONF
 export GITHUB_NOTIFY="true"
 
 github-notify "pending" "Building..."
@@ -38,7 +37,7 @@ echo $PWD
 mkdir -p $PWD/build
 cd $PWD/build
 
-cmake .. -DCMAKE_PREFIX_PATH=/builds/sofa/build/install || fail "error" "CMake config failed."
+cmake .. -DCMAKE_PREFIX_PATH=/builds/SOFA || fail "error" "CMake config failed."
 i=0
 make -j8 || fail "failure" "Build failed."
 
