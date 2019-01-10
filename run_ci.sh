@@ -5,9 +5,7 @@ fail() {
     exit -1    
 }
 
-export WORKSPACE_PATH=$PWD
 export SCRIPTS_PATH=/builds/ci/scripts
-export PROJECT_PATH=/builds/$3
 
 . $SCRIPTS_PATH/utils.sh
 . $SCRIPTS_PATH/github.sh
@@ -24,7 +22,7 @@ elif vm-is-windows; then
 else
     export GITHUB_CONTEXT="MacOS-10.13_Clang-3.5"
 fi
-export GITHUB_REPOSITORY="SofaDefrost/SofaQtQuick"
+export GITHUB_REPOSITORY="sofa-framework/$1"
 export GITHUB_TARGET_URL=$BUILD_URL
 export GITHUB_COMMIT_HASH=$GIT_COMMIT
 export GITHUB_DEFROSTBOT_TOKEN=$GIT_TOKEN_JKCONF
@@ -32,18 +30,21 @@ export GITHUB_NOTIFY="true"
 
 github-notify "pending" "Building..."
 
-cd $WORKSPACE_PATH
 echo $PWD
 mkdir -p $PWD/build
 cd $PWD/build
 
-cmake .. -DCMAKE_PREFIX_PATH=/builds/SOFA || fail "error" "CMake config failed."
+echo 1. $1
+echo 2. $2
+echo 3. $3
+cmake .. $(echo $2) -DCMAKE_INSTALL_PREFIX=/builds/$1 || fail "error" "CMake config failed."
 i=0
 make -j8 || fail "failure" "Build failed."
+make install
 
 github-notify "pending" "Running tests..."
 
-cd bin
+cd /builds/$1/bin
 
 i=0
 for file in *; do
