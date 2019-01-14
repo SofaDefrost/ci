@@ -4,7 +4,6 @@ export SCRIPTS_PATH=/builds/ci/scripts
 
 set -o errexit # Exit on error
 
-echo $PWD
 mkdir -p build
 cd build
 

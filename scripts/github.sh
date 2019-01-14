@@ -17,7 +17,7 @@ github-notify() {
        [ -n "$GITHUB_TARGET_URL" ] &&
        [ -n "$GITHUB_REPOSITORY" ] &&
        [ -n "$GITHUB_COMMIT_HASH" ] &&
-       [ -n "$GITHUB_MIMESISBOT_TOKEN" ]; then
+       [ -n "$GITHUB_DEFROSTBOT_TOKEN" ]; then
         local request="{
             \"context\": \"$GITHUB_CONTEXT\",
             \"state\": \"$state\",
