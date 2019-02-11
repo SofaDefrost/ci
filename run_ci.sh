@@ -34,7 +34,7 @@ echo $PWD
 mkdir -p $PWD/build
 cd $PWD/build
 
-cmake .. $(echo $3) -DCMAKE_INSTALL_PREFIX=/builds/$1 || fail "error" "CMake config failed."
+cmake .. $(echo $3) -DCMAKE_INSTALL_PREFIX=/builds/$1 -DSOFA_BUILD_TESTS=ON || fail "error" "CMake config failed."
 i=0
 make -j8 || fail "failure" "Build failed."
 make install || fail "failure" "Install failed"
