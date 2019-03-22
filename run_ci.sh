@@ -17,6 +17,10 @@ git config --global user.email '<>'
 
 if vm-is-ubuntu; then
     export GITHUB_CONTEXT="Ubuntu-18.04"
+    # Those paths contain the specific Qt install required by SofaQtQuick
+    # & other potential dependencies, installed in /usr/local
+    export PATH=/usr/local/Qt-5.12.1/bin:/usr/local/Qt-5.12.1/lib:${PATH}
+    export PATH=/usr/local/bin:/usr/local/lib:/usr/local/lib64:${PATH}
 elif vm-is-windows; then
     export GITHUB_CONTEXT="Windows-7_MSVC-14.0"
 else
@@ -44,7 +48,16 @@ github-notify "pending" "Running tests..."
 
 i=0
 j=0
-for file in "/builds/$1/bin/"*_test ; do
+if [ -z "$4" ]; then
+    test_dir="bin"
+    echo "$test_dir/"
+else
+    test_dir="$4"
+    echo "$test_dir/"
+fi
+set +e # Undo exit on error
+
+for file in "$test_dir/"*_test ; do
     if [ -f $file ]; then
 	$file || let "i++"
 	let "j++"
