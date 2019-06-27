@@ -9,6 +9,7 @@ cd build
 
 
 rm ./* -rf
+rm /builds/$1/* -rf
 cmake .. -DCMAKE_INSTALL_PREFIX=/builds/$1 -DSOFA_BUILD_METIS=ON
 
 make -j4 && make install -j4
