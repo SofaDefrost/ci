@@ -35,7 +35,7 @@ export GITHUB_NOTIFY="true"
 github-notify "pending" "Building..."
 
 echo $PWD
-mkdir -p $PWD/build
+mkdir -p $PWD/build/unit-tests/reports
 cd $PWD/build
 
 cmake .. $(echo $3) -DCMAKE_INSTALL_PREFIX=/builds/$1 -DSOFA_BUILD_TESTS=ON || fail "error" "CMake config failed."
@@ -57,11 +57,26 @@ else
 fi
 set +e # Undo exit on error
 
-for file in "$test_dir/"*_test ; do
-    if [ -f $file ]; then
-	$file || let "i++"
-	let "j++"
-    fi
-done
+# for file in "$test_dir/"*_test ; do
+#     if [ -f $file ]; then
+# 	$file || let "i++"
+# 	let "j++"
+#     fi
+# done
 
-github-notify "success" "$i/$j tests failed"
+bash /builds/ci/unit-tests.sh run $PWD $PWD/..
+bash /builds/ci/unit-tests.sh print-summary $PWD $PWD/..
+
+ntests=`bash /builds/ci/unit-tests.sh count-tests $PWD $PWD/..`
+nfailures=`bash /builds/ci/unit-tests.sh count-failures $PWD $PWD/..`
+nerrs=`bash /builds/ci/unit-tests.sh count-errors $PWD $PWD/..`
+ncrashes=`bash /builds/ci/unit-tests.sh count-crashes $PWD $PWD/..`
+nignored=`bash /builds/ci/unit-tests.sh count-disabled $PWD $PWD/..`
+
+status="error"
+
+if [ $nfailures -eq "0" ]; then
+    status="success"
+fi
+
+github-notify "$status" "$nfailures / $ntests failed. ($nerrs errors, $ncrashes crashes, $nignored ignored)"
