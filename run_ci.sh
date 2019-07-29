@@ -67,16 +67,45 @@ set +e # Undo exit on error
 bash /builds/ci/unit-tests.sh run $PWD $PWD/..
 bash /builds/ci/unit-tests.sh print-summary $PWD $PWD/..
 
+reference=${JOB_NAME/PR/master}
+
+bash /builds/ci/unit-tests.sh run /builds/workspace/$reference/build /builds/workspace/$reference/
+bash /builds/ci/unit-tests.sh print-summary /builds/workspace/$reference/build /builds/workspace/$reference/
+
 ntests=`bash /builds/ci/unit-tests.sh count-tests $PWD $PWD/..`
 nfailures=`bash /builds/ci/unit-tests.sh count-failures $PWD $PWD/..`
 nerrs=`bash /builds/ci/unit-tests.sh count-errors $PWD $PWD/..`
 ncrashes=`bash /builds/ci/unit-tests.sh count-crashes $PWD $PWD/..`
 nignored=`bash /builds/ci/unit-tests.sh count-disabled $PWD $PWD/..`
 
+master_ntests=`bash /builds/ci/unit-tests.sh count-tests /builds/workspace/$reference/build /builds/workspace/$reference/`
+master_nfailures=`bash /builds/ci/unit-tests.sh count-failures /builds/workspace/$reference/build /builds/workspace/$reference/`
+master_nerrs=`bash /builds/ci/unit-tests.sh count-errors /builds/workspace/$reference/build /builds/workspace/$reference/`
+master_ncrashes=`bash /builds/ci/unit-tests.sh count-crashes /builds/workspace/$reference/build /builds/workspace/$reference/`
+master_nignored=`bash /builds/ci/unit-tests.sh count-disabled /builds/workspace/$reference/build /builds/workspace/$reference/`
+
+echo "$reference: $master_ntests $master_nfailures"
+
 status="error"
 
-if [ $nfailures -eq "0" ]; then
+new_tests=$(( ntests - master_ntests ))
+new_failures=$(( nfailures - master_nfailures ))
+
+if [ $new_failures -le "0" ]; then
     status="success"
 fi
 
-github-notify "$status" "$nfailures / $ntests failed. ($nerrs errors, $ncrashes crashes, $nignored ignored)"
+
+# github-notify "$status" "$nfailures / $ntests failed. ($nerrs errors, $ncrashes crashes, $nignored ignored)"
+
+nfString="new failures"
+if [ $new_failures -le "0" ]; then
+    nfString="fixed tests"
+fi
+
+ntString="tests added"
+if [ $new_tests -lt "0" ]; then
+    ntString="tests removed"
+fi
+
+github-notify "$status" "$nfailures / $ntests failed. ($new_tests $ntString, $new_failures $nfString)"
